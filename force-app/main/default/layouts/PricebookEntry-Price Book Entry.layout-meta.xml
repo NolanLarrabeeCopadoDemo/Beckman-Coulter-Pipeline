@@ -21,9 +21,13 @@
                 <behavior>Required</behavior>
                 <field>UnitPrice</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Price_Book_Entry_Ext_Id__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
-        <style>TwoColumnsLeftToRight</style>
+        <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
         <customLabel>false</customLabel>
