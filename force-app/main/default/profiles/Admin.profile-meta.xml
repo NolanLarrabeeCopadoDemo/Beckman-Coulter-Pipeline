@@ -27,8 +27,16 @@
         <field>Partner_Deal_Registration__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PricebookEntry.Price_Book_Entry_Ext_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Partner_Deal_Registration__c-Partner Deal Registration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PricebookEntry-Price Book Entry</layout>
     </layoutAssignments>
     <loginHours n1:nil="true" />
     <loginIpRanges>
