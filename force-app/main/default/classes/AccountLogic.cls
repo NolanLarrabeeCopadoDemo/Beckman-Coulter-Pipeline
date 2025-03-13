@@ -3,6 +3,8 @@ public with sharing class AccountLogic {
      * Sets a default description for an Account if none exists
      * @param accountToUpdate Account record to process
      * @return Account with updated description
+     * @throws SecurityException if user lacks necessary permissions
+     * @throws IllegalArgumentException if account parameter is null
      */
     public static Account setDefaultDescription(Account accountToUpdate) {
         // Null check for input parameter
@@ -10,9 +12,12 @@ public with sharing class AccountLogic {
             throw new IllegalArgumentException('Account parameter cannot be null');
         }
 
-        // Check CRUD/FLS permissions
-        if (!Schema.sObjectType.Account.isUpdateable() || 
-            !Schema.sObjectType.Account.fields.Description.isUpdateable()) {
+        // Check CRUD/FLS permissions first
+        if (!Schema.sObjectType.Account.isUpdateable()) {
+            throw new SecurityException('Insufficient permissions to update Account');
+        }
+        
+        if (!Schema.sObjectType.Account.fields.Description.isUpdateable()) {
             throw new SecurityException('Insufficient permissions to update Account Description');
         }
         
@@ -28,35 +33,25 @@ public with sharing class AccountLogic {
             throw new SecurityException('Insufficient permissions to access Accounts');
         }
 
-        // Secure SOQL query with sharing rules enforced
-        List<Account> accounts = [
-            SELECT Id, Description 
-            FROM Account 
-            WHERE Id = :accountToUpdate.Id 
-            WITH SECURITY_ENFORCED
-            LIMIT 1
-        ];
-        
-        // Collect records for DML operation
-        List<Account> accountsToUpdate = new List<Account>();
-        accountsToUpdate.add(accountToUpdate);
-        
-        // Single DML operation with error handling
         try {
+            // Secure SOQL query with sharing rules enforced
+            List<Account> accounts = [
+                SELECT Id, Description 
+                FROM Account 
+                WHERE Id = :accountToUpdate.Id 
+                WITH SECURITY_ENFORCED
+                LIMIT 1
+            ];
+            
             // Perform secure update
-            update as user accountsToUpdate;
+            update as user accountToUpdate;
+            
+        } catch (System.QueryException e) {
+            throw new SecurityException('Insufficient field-level permissions: ' + e.getMessage());
         } catch (DmlException e) {
-            // Proper error handling
-            System.debug(LoggingLevel.ERROR, 'Error updating accounts: ' + e.getMessage());
-            throw new AccountLogicException('Failed to update accounts: ' + e.getMessage());
-        } catch (SecurityException e) {
-            System.debug(LoggingLevel.ERROR, 'Security violation: ' + e.getMessage());
-            throw new AccountLogicException('Security violation: ' + e.getMessage());
+            throw new SecurityException('Insufficient permissions to update record: ' + e.getMessage());
         }
         
         return accountToUpdate;
     }
-    
-    // Custom exception class
-    public class AccountLogicException extends Exception {}
 }
