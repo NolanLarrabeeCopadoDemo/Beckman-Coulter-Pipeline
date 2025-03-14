@@ -1,0 +1,9 @@
+@IsTest
+private class AccountOperationsTest {
+    @isTest static void setDefaultDescription(){
+        Account acc = new Account(Name = 'My New Test Account',Description='Default Description');
+        insert acc;
+        acc = AccountOperations.setDefaultDescription(acc);
+        System.assertEquals('Default Description', acc.Description);
+    }
+}
