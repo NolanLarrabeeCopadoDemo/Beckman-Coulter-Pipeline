@@ -9,6 +9,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Laurens_Object__c.Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Partner_Deal_Registration__c.Active__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -41,6 +46,9 @@
         <layout>Alex_Object__c-Alex Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Laurens_Object__c-Laurens Object Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Partner_Deal_Registration__c-Partner Deal Registration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -59,6 +67,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Alex_Object__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Laurens_Object__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
